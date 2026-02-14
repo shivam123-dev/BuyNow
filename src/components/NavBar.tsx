@@ -1,17 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, isAuthenticated } from '../services/auth';
-import { getCartCount, onCartChange } from '../services/cart';
-import { useEffect, useState } from 'react';
 
 export default function NavBar() {
   const user = getCurrentUser();
   const navigate = useNavigate();
-  const [cartCount, setCartCount] = useState(getCartCount());
-
-  useEffect(() => {
-    const unsub = onCartChange(() => setCartCount(getCartCount()));
-    return () => unsub();
-  }, []);
 
   const handleLogout = () => {
     logout();
@@ -26,7 +18,6 @@ export default function NavBar() {
           <>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/orders">Orders</Link>
-            <Link to="/cart">Cart{cartCount > 0 ? ` (${cartCount})` : ''}</Link>
           </>
         )}
       </div>
